@@ -124,10 +124,6 @@ function CoverSlide() {
       {/* bottom-left author block */}
       <div style={{ position: 'absolute', left: SPACE.pageX, bottom: 140, display: 'flex', gap: 80 }}>
         <div>
-          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, letterSpacing: '0.16em', color: TOKENS.mute, textTransform: 'uppercase', marginBottom: 8 }}>AUTOR</div>
-          <div style={{ fontSize: 24, color: TOKENS.ink, fontWeight: 500 }}>D. Orellana</div>
-        </div>
-        <div>
           <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, letterSpacing: '0.16em', color: TOKENS.mute, textTransform: 'uppercase', marginBottom: 8 }}>INSTITUCIÓN</div>
           <div style={{ fontSize: 24, color: TOKENS.ink, fontWeight: 500 }}>ITCA-FEPADE · Santa Tecla</div>
         </div>
@@ -2192,11 +2188,7 @@ function ClosingSlide() {
 
           <div>
             <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(245,243,236,0.5)', marginBottom: 16 }}>PREGUNTAS / CONTACTO</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
-              <div>
-                <div style={{ fontSize: 14, color: 'rgba(245,243,236,0.5)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em' }}>AUTOR</div>
-                <div style={{ fontSize: 22, marginTop: 4 }}>D. Orellana</div>
-              </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 24 }}>
               <div>
                 <div style={{ fontSize: 14, color: 'rgba(245,243,236,0.5)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em' }}>INSTITUCIÓN</div>
                 <div style={{ fontSize: 22, marginTop: 4 }}>ITCA-FEPADE</div>
@@ -2680,8 +2672,7 @@ function ThankYouSlide() {
       </div>
       <div style={{ marginTop: 24, display: 'flex', gap: 48 }}>
         {[
-          { label: 'AUTOR', value: 'D. Orellana' },
-          { label: 'INSTITUCIÓN', value: 'ITCA-FEPADE' },
+            { label: 'INSTITUCIÓN', value: 'ITCA-FEPADE' },
           { label: 'AÑO', value: '2025' },
         ].map(({ label, value }) => (
           <div key={label} style={{ textAlign: 'center' }}>
