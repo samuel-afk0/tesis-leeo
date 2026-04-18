@@ -1461,21 +1461,7 @@ function StackSlide() {
       </svg>
     ),
     ollama: (
-      /* Ollama — cute round alpaca/llama face, faithful to official logo */
-      <svg width="44" height="44" viewBox="0 0 100 105">
-        {/* Left ear */}
-        <circle cx="30" cy="24" r="12" fill="#fff" stroke="#111" strokeWidth="5"/>
-        {/* Right ear */}
-        <circle cx="70" cy="24" r="12" fill="#fff" stroke="#111" strokeWidth="5"/>
-        {/* Main head — large circle */}
-        <circle cx="50" cy="62" r="38" fill="#fff" stroke="#111" strokeWidth="5"/>
-        {/* Left eye — circle outline */}
-        <circle cx="35" cy="58" r="9" fill="none" stroke="#111" strokeWidth="4.5"/>
-        {/* Right eye — circle outline */}
-        <circle cx="65" cy="58" r="9" fill="none" stroke="#111" strokeWidth="4.5"/>
-        {/* Nose — small heart shape */}
-        <path d="M47 76 C47 72 53 72 53 76 C53 80 50 83 50 83 C50 83 47 80 47 76Z" fill="#111"/>
-      </svg>
+      <img src="uploads/ollmapng" width="44" height="44" style={{objectFit:'contain'}} alt="Ollama"/>
     ),
     postgres: (
       <svg width="44" height="44" viewBox="0 0 24 24">
