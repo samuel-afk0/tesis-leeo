@@ -257,83 +257,143 @@ function ProblemSlide() {
 
 /* ─────────── SLIDE 4 — ENCUESTA ─────────── */
 function SurveySlide() {
-  const [active, setActive] = useState(0);
-  const data = [
-    { label: 'Quisieron una herramienta digital de orientación', value: 25, of: 35, color: TOKENS.accent, detail: 'Indicaron que les hubiera gustado contar con una herramienta digital — especialmente con funciones interactivas como voz y evaluación adaptativa.' },
-    { label: 'Considera importante la orientación vocacional', value: 33, of: 35, color: TOKENS.blue, detail: 'Casi todos los encuestados reconocen el valor de un proceso estructurado de orientación antes de elegir carrera.' },
+  const n = 34;
+  const mono = { fontFamily: 'JetBrains Mono, monospace' };
+
+  const questions = [
+    {
+      num: 1,
+      q: '¿Recibiste algún tipo de orientación vocacional antes de elegir tu carrera?',
+      items: [
+        { l: 'No', v: 22, c: TOKENS.accent },
+        { l: 'Sí', v: 12, c: TOKENS.ok },
+      ],
+    },
+    {
+      num: 2,
+      q: '¿Cómo obtuviste la información para elegir tu carrera?',
+      items: [
+        { l: 'Recomendación de familiares o amigos', v: 14, c: TOKENS.accent },
+        { l: 'Búsqueda en internet o redes sociales', v: 9, c: TOKENS.blue },
+        { l: 'Orientación en la escuela', v: 4, c: TOKENS.sand },
+        { l: 'Decisión personal sin orientación', v: 4, c: TOKENS.sand },
+        { l: 'Información de ITCA-FEPADE', v: 3, c: TOKENS.sand },
+      ],
+    },
+    {
+      num: 3,
+      q: '¿Qué tan seguro(a) estabas al momento de inscribirte a la carrera?',
+      items: [
+        { l: 'Muy seguro(a)', v: 16, c: TOKENS.ok },
+        { l: 'Algo seguro(a)', v: 15, c: TOKENS.ok },
+        { l: 'Poco seguro(a)', v: 3, c: TOKENS.accent },
+        { l: 'No estaba seguro(a)', v: 0, c: TOKENS.mute },
+      ],
+    },
+    {
+      num: 4,
+      q: '¿Consideras importante la orientación vocacional antes de elegir una carrera?',
+      items: [
+        { l: 'Muy importante', v: 20, c: TOKENS.blue },
+        { l: 'Importante', v: 10, c: TOKENS.blue },
+        { l: 'Poco importante', v: 4, c: TOKENS.sand },
+        { l: 'No es importante', v: 0, c: TOKENS.mute },
+      ],
+    },
+    {
+      num: 5,
+      q: '¿Te hubiera gustado contar con una herramienta digital para conocer mejor las carreras?',
+      items: [
+        { l: 'Sí', v: 26, c: TOKENS.accent },
+        { l: 'Talvez', v: 7, c: TOKENS.sand },
+        { l: 'No', v: 1, c: TOKENS.mute },
+      ],
+    },
+    {
+      num: 6,
+      q: '¿Qué tipo de herramienta consideras más útil para recibir orientación vocacional?',
+      items: [
+        { l: 'Asistente virtual sobre carreras', v: 14, c: TOKENS.accent },
+        { l: 'Simulación de actividades', v: 12, c: TOKENS.blue },
+        { l: 'Test de intereses profesionales', v: 4, c: TOKENS.sand },
+        { l: 'Información detallada en línea', v: 4, c: TOKENS.sand },
+      ],
+    },
   ];
-  const d = data[active];
-  const pct = Math.round((d.value / d.of) * 100);
+
+  function QCard({ num, q, items }) {
+    const maxV = Math.max(...items.map(x => x.v));
+    return (
+      <div style={{
+        background: '#fff', borderRadius: 14, padding: '18px 22px',
+        border: `1px solid ${TOKENS.line}`,
+        display: 'flex', flexDirection: 'column', overflow: 'hidden',
+      }}>
+        {/* Question header */}
+        <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 14 }}>
+          <span style={{
+            ...mono, fontSize: 11, fontWeight: 700, color: '#fff',
+            background: TOKENS.accent, borderRadius: 6,
+            padding: '2px 8px', flexShrink: 0, marginTop: 1,
+          }}>P{num}</span>
+          <span style={{ fontSize: 13, color: TOKENS.ink, lineHeight: 1.4, fontWeight: 500 }}>{q}</span>
+        </div>
+        {/* Bars */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 9, flex: 1, justifyContent: 'center' }}>
+          {items.map(({ l, v, c }, i) => {
+            const pct = Math.round((v / n) * 100);
+            const barW = maxV > 0 ? (v / maxV) * 100 : 0;
+            return (
+              <div key={l}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
+                  <span style={{ fontSize: 13, color: i === 0 ? TOKENS.ink : TOKENS.ink2, fontWeight: i === 0 ? 600 : 400 }}>{l}</span>
+                  <span style={{ ...mono, fontSize: 12, color: v === 0 ? TOKENS.mute : c, fontWeight: 700, marginLeft: 8, whiteSpace: 'nowrap' }}>
+                    {v} · {pct}%
+                  </span>
+                </div>
+                <div style={{ height: 12, background: TOKENS.bg2, borderRadius: 6, overflow: 'hidden' }}>
+                  {v > 0 && <div style={{ height: '100%', width: barW + '%', background: c, borderRadius: 6 }} />}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ width: '100%', height: '100%', background: TOKENS.bg, position: 'relative' }}>
       <Chrome index={4} total={16} label="Evidencia" />
-      <div style={{ padding: `${SPACE.pageY}px ${SPACE.pageX}px`, height: '100%' }}>
-        <div className="eyebrow">02 · ENCUESTA DE NUEVO INGRESO</div>
-        <div className="display" style={{ fontSize: 72, marginTop: 20, marginBottom: 16, maxWidth: 1600 }}>
-          Encuesta aplicada a <span className="italic" style={{color:TOKENS.accent}}>35 estudiantes de nuevo ingreso.</span>
-        </div>
-        <div style={{ fontSize: 24, color: TOKENS.ink2, marginBottom: 48, maxWidth: 1100 }}>
-          Los resultados confirman una demanda clara por una herramienta digital de orientación vocacional.
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '420px 1fr', gap: 48, alignItems: 'stretch' }}>
-          {/* Tabs */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {data.map((r, i) => (
-              <button key={i} onClick={()=>setActive(i)} style={{
-                textAlign: 'left', padding: '22px 24px',
-                border: `1px solid ${active === i ? r.color : TOKENS.line}`,
-                background: active === i ? r.color : '#fff',
-                color: active === i ? '#fff' : TOKENS.ink,
-                borderRadius: 14, transition: 'all .3s',
-                fontSize: 20, lineHeight: 1.35,
-                cursor: 'pointer',
-              }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7, marginBottom: 8 }}>
-                  HALLAZGO 0{i+1}
-                </div>
-                <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 36, lineHeight: 1, marginBottom: 6 }}>
-                  {r.value}<span style={{ opacity: 0.5, fontSize: 24 }}>/{r.of}</span>
-                </div>
-                <div style={{ fontSize: 19 }}>{r.label}</div>
-              </button>
-            ))}
-            <div style={{ marginTop: 4, fontFamily: 'JetBrains Mono, monospace', fontSize: 13, color: TOKENS.mute, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              ↔  CLIC PARA CAMBIAR
-            </div>
-          </div>
-
-          {/* Active card */}
-          <div key={active} style={{
-            padding: 56, background: d.color, color: '#fff', borderRadius: 18,
-            display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-            minHeight: 520,
-          }}>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 14, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.75 }}>
-              RESPUESTA · N=35
-            </div>
-            <div>
-              <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 280, lineHeight: 0.85 }}>
-                {pct}<span style={{ fontSize: 80, opacity: 0.6 }}>%</span>
-              </div>
-              <div style={{ fontSize: 30, lineHeight: 1.3, maxWidth: 700, marginTop: 16 }}>
-                {d.detail}
-              </div>
-            </div>
-            <div>
-              <div style={{ height: 4, background: 'rgba(255,255,255,0.25)', position: 'relative', overflow: 'hidden', borderRadius: 2 }}>
-                <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: pct + '%', background: '#fff', transition: 'width .7s' }} />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, fontFamily: 'JetBrains Mono, monospace', fontSize: 16 }}>
-                <span>{d.value} de {d.of}</span>
-                <span style={{ opacity: 0.75 }}>MUESTRA · NUEVO INGRESO 2026</span>
-              </div>
-            </div>
+      <div style={{
+        padding: `${SPACE.pageY}px ${SPACE.pageX}px`,
+        height: '100%', boxSizing: 'border-box',
+        display: 'flex', flexDirection: 'column',
+      }}>
+        {/* Header */}
+        <div style={{ marginBottom: 16, flexShrink: 0 }}>
+          <div className="eyebrow">02 · ENCUESTA DE NUEVO INGRESO · N = 34</div>
+          <div className="display" style={{ fontSize: 44, marginTop: 6, lineHeight: 1.05 }}>
+            Encuesta aplicada a{' '}
+            <span className="italic" style={{ color: TOKENS.accent }}>34 estudiantes de nuevo ingreso.</span>
           </div>
         </div>
 
-        <div style={{ marginTop: 32, fontFamily: 'JetBrains Mono, monospace', fontSize: 14, color: TOKENS.mute, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          FUENTE · ORELLANA, D. (2026). ENCUESTA APLICADA A ESTUDIANTES DE NUEVO INGRESO · MICROSOFT FORMS · N = 35
+        {/* 3 × 2 grid — one card per question */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+          gridTemplateRows: '1fr 1fr',
+          gap: 14,
+          flex: 1,
+          minHeight: 0,
+        }}>
+          {questions.map(q => <QCard key={q.num} {...q} />)}
+        </div>
+
+        {/* Footer */}
+        <div style={{ marginTop: 10, ...mono, fontSize: 11, color: TOKENS.mute, letterSpacing: '0.08em', textTransform: 'uppercase', flexShrink: 0 }}>
+          FUENTE · ORELLANA, D. (2026) · ENCUESTA APLICADA A ESTUDIANTES DE NUEVO INGRESO · MICROSOFT FORMS · N = 34
         </div>
       </div>
     </div>
