@@ -530,12 +530,11 @@ function ActorsSlide() {
       icon: '⚙️',
       flow: [],
       branchA: [
-        { icon:'📄', label:'Subir PDFs' },
-        { icon:'📚', label:'Información sobre carreras' },
-        { icon:'✂️', label:'Chunking automático' },
-        { icon:'🔢', label:'Embeddings vectoriales' },
-        { icon:'💾', label:'pgvector almacena' },
-        { icon:'🔍', label:'RAG disponible' },
+        { icon:'📄', label:'Cargar documentos institucionales (PDF)' },
+        { icon:'🔄', label:'Actualizar documentos existentes' },
+        { icon:'🗄️', label:'Gestionar base de conocimiento (vectorización)' },
+        { icon:'⚙️', label:'Configurar parámetros del sistema' },
+        { icon:'🗂️', label:'Administrar información del sistema' },
       ],
       branchB: [
         { icon:'🤖', label:'Activar / desactivar modelos' },
