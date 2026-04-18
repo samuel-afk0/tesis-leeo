@@ -526,17 +526,24 @@ function ActorsSlide() {
     admin: {
       title: 'Administrador',
       subtitle: 'Gestión del sistema · backend',
-      desc: 'Carga documentos institucionales (PDFs), gestiona la vectorización con pgvector, configura parámetros del modelo LLM y supervisa el pipeline RAG.',
+      desc: 'Accede con perfil de admin, carga documentos institucionales y configura el sistema: modelos, horarios de atención, conversaciones y agenda.',
       color: TOKENS.blue,
       icon: '⚙️',
-      flow: [
-        { id:'upload', label:'Sube PDFs', x:80, y:180, icon:'📄' },
-        { id:'chunk', label:'Chunking automático', x:280, y:140, icon:'✂️' },
-        { id:'embed', label:'Embeddings (vector)', x:480, y:100, icon:'🔢' },
-        { id:'store', label:'pgvector almacena', x:680, y:140, icon:'💾' },
-        { id:'rag', label:'RAG disponible', x:880, y:180, icon:'🔍' },
+      flow: [],
+      branchA: [
+        { icon:'📄', label:'Subir PDFs' },
+        { icon:'📚', label:'Información sobre carreras' },
+        { icon:'✂️', label:'Chunking automático' },
+        { icon:'🔢', label:'Embeddings vectoriales' },
+        { icon:'💾', label:'pgvector almacena' },
+        { icon:'🔍', label:'RAG disponible' },
       ],
-      connections: [[0,1],[1,2],[2,3],[3,4]],
+      branchB: [
+        { icon:'🤖', label:'Activar / desactivar modelos' },
+        { icon:'🕐', label:'Configurar horarios de atención' },
+        { icon:'💬', label:'Revisar conversaciones' },
+        { icon:'📅', label:'Cancelar o reagendar reuniones' },
+      ],
     },
   };
 
@@ -544,7 +551,7 @@ function ActorsSlide() {
 
   // Auto-advance flow animation
   useEffect(() => {
-    if (!autoPlay) return;
+    if (!autoPlay || actor.flow.length === 0) return;
     const t = setTimeout(() => {
       setFlowStep(s => (s + 1) % (actor.flow.length + 1));
     }, 1800);
@@ -581,14 +588,16 @@ function ActorsSlide() {
               {v.title}
             </button>
           ))}
-          <button onClick={()=>setAutoPlay(a=>!a)} style={{
-            marginLeft: 'auto', padding: '16px 24px',
-            border: `1px solid ${TOKENS.line}`, background: autoPlay ? TOKENS.bg : '#fff',
-            borderRadius: 16, fontFamily: 'JetBrains Mono, monospace', fontSize: 13,
-            letterSpacing: '0.08em', cursor: 'pointer', color: TOKENS.ink,
-          }}>
-            {autoPlay ? '❚❚ PAUSAR' : '▶ PLAY'}
-          </button>
+          {active !== 'admin' && (
+            <button onClick={()=>setAutoPlay(a=>!a)} style={{
+              marginLeft: 'auto', padding: '16px 24px',
+              border: `1px solid ${TOKENS.line}`, background: autoPlay ? TOKENS.bg : '#fff',
+              borderRadius: 16, fontFamily: 'JetBrains Mono, monospace', fontSize: 13,
+              letterSpacing: '0.08em', cursor: 'pointer', color: TOKENS.ink,
+            }}>
+              {autoPlay ? '❚❚ PAUSAR' : '▶ PLAY'}
+            </button>
+          )}
         </div>
 
         {/* Description */}
@@ -608,9 +617,70 @@ function ActorsSlide() {
           </div>
         </div>
 
-        {/* Sequential flow — clean horizontal steps */}
-        <div style={{ background: '#fff', border: `1px solid ${TOKENS.line}`, borderRadius: 20, padding: '36px 32px 28px', position: 'relative' }}>
+        {/* Flow box */}
+        <div style={{ background: '#fff', border: `1px solid ${TOKENS.line}`, borderRadius: 20, padding: active === 'admin' ? '28px 32px' : '36px 32px 28px', position: 'relative' }}>
 
+        {active === 'admin' ? (
+          /* ── Branched admin flow ── */
+          <div>
+            {/* Login node */}
+            <div style={{ display:'flex', justifyContent:'center', marginBottom:0 }}>
+              <div style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 28px', background:TOKENS.blue, color:'#fff', borderRadius:12 }}>
+                <span style={{fontSize:22}}>🔑</span>
+                <span style={{fontSize:15, fontWeight:600}}>Ingresar con perfil de administrador</span>
+              </div>
+            </div>
+            {/* T-connector */}
+            <div style={{position:'relative', height:32}}>
+              <div style={{position:'absolute', left:'50%', top:0, width:2, height:'55%', background:TOKENS.line}} />
+              <div style={{position:'absolute', left:'25%', right:'25%', top:'55%', height:2, background:TOKENS.line}} />
+              <div style={{position:'absolute', left:'25%', top:'55%', width:2, height:'45%', background:TOKENS.line}} />
+              <div style={{position:'absolute', right:'calc(25% - 1px)', top:'55%', width:2, height:'45%', background:TOKENS.line}} />
+            </div>
+            {/* Two branches */}
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:16}}>
+              {/* Branch A — Conocimiento */}
+              <div style={{border:`1.5px solid ${TOKENS.accent}50`, borderRadius:14, overflow:'hidden'}}>
+                <div style={{background:`${TOKENS.accent}12`, padding:'10px 16px', borderBottom:`1px solid ${TOKENS.accent}30`}}>
+                  <span style={{fontFamily:'JetBrains Mono,monospace', fontSize:11, color:TOKENS.accent, textTransform:'uppercase', letterSpacing:'0.1em'}}>
+                    📁 Gestión de conocimiento
+                  </span>
+                </div>
+                {actor.branchA.map(({icon,label},i,arr)=>(
+                  <div key={label} style={{
+                    display:'flex', alignItems:'center', gap:10, padding:'9px 16px',
+                    borderBottom: i<arr.length-1 ? `1px solid ${TOKENS.line}` : 'none',
+                    fontSize:14, color:TOKENS.ink,
+                  }}>
+                    <span>{icon}</span>
+                    <span>{label}</span>
+                    {i < arr.length-1 && <span style={{marginLeft:'auto', color:TOKENS.mute, fontSize:11}}>↓</span>}
+                  </div>
+                ))}
+              </div>
+              {/* Branch B — Sistema */}
+              <div style={{border:`1.5px solid ${TOKENS.blue}50`, borderRadius:14, overflow:'hidden'}}>
+                <div style={{background:`${TOKENS.blue}12`, padding:'10px 16px', borderBottom:`1px solid ${TOKENS.blue}30`}}>
+                  <span style={{fontFamily:'JetBrains Mono,monospace', fontSize:11, color:TOKENS.blue, textTransform:'uppercase', letterSpacing:'0.1em'}}>
+                    ⚙️ Gestión del sistema
+                  </span>
+                </div>
+                {actor.branchB.map(({icon,label},i,arr)=>(
+                  <div key={label} style={{
+                    display:'flex', alignItems:'center', gap:10, padding:'13px 16px',
+                    borderBottom: i<arr.length-1 ? `1px solid ${TOKENS.line}` : 'none',
+                    fontSize:14, color:TOKENS.ink,
+                  }}>
+                    <span>{icon}</span>
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* ── Linear aspirante flow ── */
+          <div>
           {/* Steps row */}
           <div style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}>
             {actor.flow.map((node, i) => {
@@ -722,11 +792,15 @@ function ActorsSlide() {
               </div>
             </div>
           )}
+          </div>
+        )}
         </div>
 
-        <div style={{ marginTop: 20, fontFamily: 'JetBrains Mono, monospace', fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase', color: TOKENS.mute }}>
-          ↔  CLIC EN LOS PASOS PARA EXPLORAR · LA ANIMACIÓN SE REPRODUCE AUTOMÁTICAMENTE
-        </div>
+        {active !== 'admin' && (
+          <div style={{ marginTop: 20, fontFamily: 'JetBrains Mono, monospace', fontSize: 13, letterSpacing: '0.08em', textTransform: 'uppercase', color: TOKENS.mute }}>
+            ↔  CLIC EN LOS PASOS PARA EXPLORAR · LA ANIMACIÓN SE REPRODUCE AUTOMÁTICAMENTE
+          </div>
+        )}
       </div>
       <style>{`
         @keyframes pulseRingActor{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:0;transform:scale(1.04)}}
