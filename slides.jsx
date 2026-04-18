@@ -136,7 +136,194 @@ function CoverSlide() {
   );
 }
 
-/* ─────────── SLIDE 2 — AGENDA ─────────── */
+/* ─────────── SLIDE 2 — EQUIPO ─────────── */
+function TeamSlide() {
+  const members = [
+    { name: 'Jorge Alexis Aguilar Castillo',      id: '027221' },
+    { name: 'Samuel Isai Alvarado Caravantes',    id: '183021' },
+    { name: 'Dariouz Mauricio Orellana López',    id: '033419' },
+    { name: 'René Armando Sánchez Platero',       id: '026521' },
+  ];
+  const svgRef = useRef(null);
+
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const NS = 'http://www.w3.org/2000/svg';
+    const W = 1920, H = 1080, N = 42;
+
+    // seeded pseudo-random so layout is consistent across renders
+    let _s = 98765;
+    const rnd = () => { _s = (_s * 16807 + 0) % 2147483647; return (_s - 1) / 2147483646; };
+
+    // init nodes: random pos + slow random velocity
+    const nodes = Array.from({ length: N }, () => ({
+      x: rnd() * W,
+      y: rnd() * H,
+      vx: (rnd() - 0.5) * 0.85,
+      vy: (rnd() - 0.5) * 0.85,
+    }));
+
+    // build random edges — each node connects to 2–4 random others (not self)
+    const edgeSet = new Set();
+    const edges = [];
+    for (let i = 0; i < N; i++) {
+      const nConn = 2 + Math.floor(rnd() * 3);
+      for (let c = 0; c < nConn; c++) {
+        const j = Math.floor(rnd() * N);
+        if (i === j) continue;
+        const key = Math.min(i, j) + '_' + Math.max(i, j);
+        if (!edgeSet.has(key)) { edgeSet.add(key); edges.push([i, j]); }
+      }
+    }
+
+    // travelers: every 3rd edge
+    const travEdges = edges.filter((_, i) => i % 7 === 0);
+    const travState = travEdges.map((_, i) => ({ t: i / travEdges.length }));
+    const TAIL = 0.05, SPEED = 0.002;
+
+    // create edge lines
+    const lineEls = edges.map(() => {
+      const el = document.createElementNS(NS, 'line');
+      el.setAttribute('stroke', '#ffffff');
+      el.setAttribute('stroke-width', '0.8');
+      el.setAttribute('opacity', '0.18');
+      svg.appendChild(el);
+      return el;
+    });
+
+    // create node circles
+    const nodeEls = nodes.map(() => {
+      const el = document.createElementNS(NS, 'circle');
+      el.setAttribute('r', '9');
+      el.setAttribute('fill', '#E2512A');
+      svg.appendChild(el);
+      return el;
+    });
+
+    // create traveler streaks
+    const travEls = travEdges.map(() => {
+      const el = document.createElementNS(NS, 'line');
+      el.setAttribute('stroke', '#E2512A');
+      el.setAttribute('stroke-width', '1');
+      el.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(el);
+      return el;
+    });
+
+    let frame;
+    const animate = () => {
+      // move nodes, bounce off walls
+      nodes.forEach(n => {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0)  { n.x = 0;  n.vx *= -1; }
+        if (n.x > W)  { n.x = W;  n.vx *= -1; }
+        if (n.y < 0)  { n.y = 0;  n.vy *= -1; }
+        if (n.y > H)  { n.y = H;  n.vy *= -1; }
+      });
+
+      // update edge lines
+      edges.forEach(([a, b], i) => {
+        lineEls[i].setAttribute('x1', nodes[a].x);
+        lineEls[i].setAttribute('y1', nodes[a].y);
+        lineEls[i].setAttribute('x2', nodes[b].x);
+        lineEls[i].setAttribute('y2', nodes[b].y);
+      });
+
+      // update node circles
+      nodeEls.forEach((el, i) => {
+        el.setAttribute('cx', nodes[i].x);
+        el.setAttribute('cy', nodes[i].y);
+      });
+
+      // update travelers
+      travEdges.forEach(([a, b], i) => {
+        travState[i].t = (travState[i].t + SPEED) % 1;
+        const t2 = travState[i].t;
+        const t1 = Math.max(0, t2 - TAIL);
+        const sx = nodes[a].x, sy = nodes[a].y;
+        const ex = nodes[b].x, ey = nodes[b].y;
+        travEls[i].setAttribute('x1', sx + (ex - sx) * t1);
+        travEls[i].setAttribute('y1', sy + (ey - sy) * t1);
+        travEls[i].setAttribute('x2', sx + (ex - sx) * t2);
+        travEls[i].setAttribute('y2', sy + (ey - sy) * t2);
+      });
+
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      [...lineEls, ...nodeEls, ...travEls].forEach(el => { try { svg.removeChild(el); } catch(_){} });
+    };
+  }, []);
+
+  return (
+    <div style={{ width:'100%', height:'100%', background:'#000', position:'relative', overflow:'hidden' }}>
+      <Chrome index={2} total={17} label="Equipo" />
+
+      {/* Animated network — all elements created in useEffect */}
+      <svg ref={svgRef} style={{ position:'absolute', top:0, left:0, width:'100%', height:'100%' }} viewBox="0 0 1920 1080" />
+
+      {/* Accent vertical bar */}
+      <div style={{ position:'absolute', left: SPACE.pageX - 32, top: SPACE.pageY, bottom: SPACE.pageY, width:4, background: TOKENS.accent, borderRadius:2 }} />
+
+      <div style={{
+        padding: `${SPACE.pageY}px ${SPACE.pageX}px`,
+        height:'100%', boxSizing:'border-box',
+        display:'flex', flexDirection:'column', justifyContent:'space-between',
+        position:'relative', zIndex:1,
+      }}>
+        {/* Header */}
+        <div>
+          <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:16, color:TOKENS.accent, letterSpacing:'0.16em', textTransform:'uppercase' }}>
+            00 · EQUIPO DE DESARROLLO
+          </div>
+          <div style={{ fontFamily:'Instrument Serif,serif', fontSize:68, color:'#fff', lineHeight:1.05, marginTop:16, maxWidth:900 }}>
+            Ingeniería en <span style={{ fontStyle:'italic', color:TOKENS.accent }}>Desarrollo de Software</span>
+          </div>
+          <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:14, color:'rgba(255,255,255,0.3)', marginTop:12, letterSpacing:'0.1em', textTransform:'uppercase' }}>
+            ITCA-FEPADE · 2026
+          </div>
+        </div>
+
+        {/* Members */}
+        <div style={{ display:'flex', flexDirection:'column' }}>
+          {members.map(({ name, id }, i) => (
+            <div key={id} style={{
+              display:'flex', alignItems:'center', gap:28,
+              padding:'22px 0',
+              borderTop:'1px solid rgba(255,255,255,0.08)',
+              borderBottom: i === members.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
+            }}>
+              <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:13, color:TOKENS.accent, opacity:0.7, minWidth:28 }}>
+                {String(i+1).padStart(2,'0')}
+              </span>
+              <span style={{ fontFamily:'Instrument Serif,serif', fontSize:46, color:'#fff', lineHeight:1 }}>
+                {name}
+              </span>
+              <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:22, color:TOKENS.accent, letterSpacing:'0.1em', marginLeft:8 }}>
+                #{id}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div style={{ display:'flex', alignItems:'center', gap:20 }}>
+          <div style={{ height:1, flex:1, background:'rgba(255,255,255,0.06)' }} />
+          <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:13, color:'rgba(255,255,255,0.25)', letterSpacing:'0.12em', textTransform:'uppercase' }}>
+            LEEO · Sistema de Orientación Vocacional con IA Local
+          </div>
+          <div style={{ height:1, flex:1, background:'rgba(255,255,255,0.06)' }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────── SLIDE 3 — AGENDA ─────────── */
 function AgendaSlide() {
   const items = [
     ['01', 'Problema',     'Distancia, dispersión y elección sin criterio.'],
@@ -2797,7 +2984,7 @@ function ThankYouSlide() {
 
 /* ─────────── export all to window for mount ─────────── */
 Object.assign(window, {
-  CoverSlide, AgendaSlide, ProblemSlide, SurveySlide, DifferentiatorSlide,
+  CoverSlide, TeamSlide, AgendaSlide, ProblemSlide, SurveySlide, DifferentiatorSlide,
   GoalsSlide, ActorsSlide, ProcessFlowSlide, DERSlide, DemoVocationalSlide, DemoVoiceSlide,
   ArchitectureSlide, StackSlide, ScreensUserSlide, ScreensAdminSlide,
   RagSlide, ScopeSlide, MetricsSlide,

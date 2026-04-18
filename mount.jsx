@@ -1,6 +1,7 @@
 /* global React, ReactDOM */
 const slideMap = {
   cover: window.CoverSlide,
+  team: window.TeamSlide,
   agenda: window.AgendaSlide,
   problem: window.ProblemSlide,
   survey: window.SurveySlide,
