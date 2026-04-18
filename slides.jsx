@@ -2172,22 +2172,20 @@ function ClosingSlide() {
             </div>
 
             {/* Table header */}
-            <div style={{ display: 'grid', gridTemplateColumns: '90px 1fr 70px 70px 72px 76px', gap: 8, padding: '6px 12px', background: TOKENS.ink, borderRadius: 8 }}>
-              {['Proveedor','Instancia / GPU','CPU','RAM','Por hora','Mes 24/7'].map(h => (
+            <div style={{ display: 'grid', gridTemplateColumns: '90px 100px 1fr 64px 64px 68px 72px', gap: 8, padding: '6px 12px', background: TOKENS.ink, borderRadius: 8 }}>
+              {['Proveedor','Instancia','GPU (VRAM)','CPU','RAM','Por hora','Mes 24/7'].map(h => (
                 <div key={h} style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.1em', color: 'rgba(245,243,236,0.6)', textTransform: 'uppercase' }}>{h}</div>
               ))}
             </div>
 
             {cloudRows.map((r, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr 70px 70px 72px 76px', gap: 8, padding: '10px 12px', background: '#fff', borderRadius: 8, border: `1px solid ${TOKENS.line}`, borderLeft: `4px solid ${r.color}`, alignItems: 'center' }}>
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 100px 1fr 64px 64px 68px 72px', gap: 8, padding: '10px 12px', background: '#fff', borderRadius: 8, border: `1px solid ${TOKENS.line}`, borderLeft: `4px solid ${r.color}`, alignItems: 'center' }}>
                 <div>
                   <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13, fontWeight: 700, color: r.color }}>{r.provider}</div>
-                  {r.tag && <div style={{ fontSize: 10, color: TOKENS.mute, background: r.tag==='Ideal'?'rgba(226,81,42,0.1)':'rgba(0,0,0,0.06)', borderRadius: 4, padding: '1px 5px', display:'inline-block', marginTop:2 }}>{r.tag}</div>}
+                  {r.tag && <div style={{ fontSize: 10, color: r.tag==='Ideal'?TOKENS.accent:TOKENS.mute, background: r.tag==='Ideal'?'rgba(226,81,42,0.1)':'rgba(0,0,0,0.06)', borderRadius: 4, padding: '1px 5px', display:'inline-block', marginTop:2 }}>{r.tag}</div>}
                 </div>
-                <div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: TOKENS.ink }}>{r.inst}</div>
-                  <div style={{ fontSize: 11, color: TOKENS.mute }}>{r.gpu}</div>
-                </div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: TOKENS.ink }}>{r.inst}</div>
+                <div style={{ fontSize: 12, color: TOKENS.ink }}>{r.gpu}</div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: TOKENS.ink }}>{r.cpu}</div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: TOKENS.ink }}>{r.ram}</div>
                 <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 18, color: TOKENS.ink }}>{r.hora}</div>
