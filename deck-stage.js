@@ -415,7 +415,10 @@
       this._slides = assigned.filter((el) => {
         // Skip template/style/script nodes even if someone slots them.
         const tag = el.tagName;
-        return tag !== 'TEMPLATE' && tag !== 'SCRIPT' && tag !== 'STYLE';
+        if (tag === 'TEMPLATE' || tag === 'SCRIPT' || tag === 'STYLE') return false;
+        // Skip slides explicitly marked as hidden.
+        if (el.hasAttribute('data-deck-hidden')) return false;
+        return true;
       });
 
       this._slides.forEach((slide, i) => {
