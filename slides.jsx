@@ -516,10 +516,9 @@ function ActorsSlide() {
       icon: '🎓',
       flow: [
         { id:'entry', label:'Accede a la web', x:80, y:180, icon:'🌐' },
-        { id:'quiz', label:'Prueba vocacional', x:280, y:140, icon:'📝' },
-        { id:'voice', label:'Responde (voz/texto)', x:480, y:100, icon:'🎤' },
-        { id:'llm', label:'IA analiza perfil', x:680, y:140, icon:'🧠' },
-        { id:'result', label:'Recomendaciones', x:880, y:180, icon:'✨' },
+        { id:'chat', label:'Ingresa al chat o llamada', x:280, y:140, icon:'🎤' },
+        { id:'llm', label:'IA analiza perfil', x:480, y:100, icon:'🧠' },
+        { id:'result', label:'Recomendaciones', x:680, y:140, icon:'✨' },
       ],
       connections: [[0,1],[1,2],[2,3],[3,4]],
     },
