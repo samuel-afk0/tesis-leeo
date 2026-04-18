@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Plataforma Web de Orientación Vocacional · Tesis</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #F5F3EC;
+    --bg-2: #EAE6DB;
+    --ink: #0E0E0C;
+    --ink-2: #2B2A27;
+    --mute: #6E6B63;
+    --line: #CDC8B8;
+    --accent: #E2512A;     /* orange */
+    --accent-2: #0A2540;   /* deep blue */
+    --accent-3: #D9CFB5;   /* sand */
+    --ok: #2F7D4E;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; }
+  body { font-family: 'Inter', system-ui, sans-serif; color: var(--ink); }
+
+  deck-stage > section {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow: hidden;
+  }
+
+  /* Common layout primitives */
+  .slide-pad { padding: 96px 112px; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    font-weight: 500;
+  }
+  .display {
+    font-family: 'Instrument Serif', 'Times New Roman', serif;
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .italic { font-style: italic; }
+  .hairline { height: 1px; background: var(--line); border: 0; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 14px; border-radius: 999px;
+    border: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-2); background: rgba(255,255,255,0.3);
+  }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .grain::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(rgba(0,0,0,0.035) 1px, transparent 1px);
+    background-size: 3px 3px; mix-blend-mode: multiply; opacity: 0.8;
+  }
+
+  /* Page numbers + header bar rendered per-slide via React */
+  .deckchrome {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 40px 56px; z-index: 5;
+    font-family: 'JetBrains Mono', monospace; font-size: 24px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute);
+  }
+  .deckchrome .row { display: flex; justify-content: space-between; align-items: center; }
+  .deckchrome .mark { display: flex; gap: 14px; align-items: center; }
+  .deckchrome .mark .sq { width: 14px; height: 14px; background: var(--ink); }
+
+  /* Shared component styles */
+  button { font-family: inherit; cursor: pointer; }
+  input, textarea { font-family: inherit; }
+
+  /* ensure React root fills the slide */
+  [data-react-root] { width: 100%; height: 100%; }
+</style>
+
+<script type="application/json" id="speaker-notes">
+[
+  "Buenos días. Voy a presentarles la tesis: una plataforma web de orientación vocacional para ITCA-FEPADE que combina un asistente de voz con IA local y un sistema de recomendación adaptativo. Lo que van a ver hoy es un prototipo real, interactivo, que pueden probar en vivo en cualquier momento.",
+  "El recorrido: arranco con el problema y los datos que lo sustentan, luego la propuesta y los objetivos. Después entramos a la plataforma en sí — demo de la prueba vocacional y del chat de voz — y cerramos con arquitectura, stack, métricas, cronograma y presupuesto.",
+  "Dos problemas atacamos. Uno logístico: aspirantes viajando hasta hora y media desde el occidente del país solo para obtener información. Otro vocacional: estudiantes eligiendo carrera por el nombre, sin evaluación de afinidad, lo que se traduce en deserción temprana.",
+  "La encuesta a 35 estudiantes de primer año confirma la hipótesis. 14 de 35 no recibieron ningún apoyo vocacional. 25 indicaron que les hubiera gustado una herramienta digital. Estos números justifican la inversión.",
+  "Lo que diferencia este proyecto de un CRUD tradicional: evaluación vocacional dinámica, recomendación de al menos 3 carreras con nivel de afinidad, simulaciones de escenarios reales, y un asistente RAG alimentado con PDFs institucionales — todo con IA corriendo localmente para evitar fugas de datos.",
+  "Un objetivo general y tres específicos: diagnóstico de proceso, desarrollo e integración de la plataforma, e implementación con pruebas reales.",
+  "Dos actores: el aspirante que interactúa con la prueba y el asistente, y el administrador técnico que mantiene la base de conocimiento.",
+  "Esta es la prueba vocacional. Pueden responder por texto o voz. El modelo analiza las respuestas, calcula afinidad contra cada carrera ofertada y recomienda las tres con mayor alineación. Voy a hacer una demo en vivo.",
+  "El asistente informativo. RAG sobre los PDFs de la institución. Se puede conversar por voz con latencia sub-segundo gracias a Pipecat + LiveKit.",
+  "Arquitectura de microservicios. Frontend React, backend Django, transporte de audio por WebRTC vía LiveKit, orquestado por Pipecat que sincroniza Whisper, el LLM y Kokoro TTS.",
+  "Stack tecnológico completo. Todo corriendo local excepto la VM, lo que mantiene los costos bajos y la privacidad alta.",
+  "El pipeline RAG. Los PDFs se segmentan, se vectorizan con embeddings, se indexan en pgvector. En cada consulta el backend recupera los fragmentos relevantes y los inyecta como contexto del LLM.",
+  "Alcances y limitaciones — ser explícitos sobre qué hace y qué no hace el sistema es parte del rigor del proyecto.",
+  "Las métricas con las que validaremos el sistema: RAGAS para la calidad del RAG, F1 para la clasificación vocacional, WER para Whisper, TTFT para la experiencia de voz.",
+  "Cronograma por fases. Estamos actualmente entre la fase 6 y 7.",
+  "Presupuesto estimado mensual. Quince a veinticinco dólares de infraestructura. El resto es software open source. Gracias, quedo abierto a preguntas."
+]
+</script>
+</head>
+
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ SLIDE 1 — COVER ============ -->
+  <section data-label="Portada" id="s1">
+    <div data-react-root data-slide="cover"></div>
+  </section>
+
+  <!-- ============ SLIDE 2 — AGENDA ============ -->
+  <section data-label="Agenda" id="s2">
+    <div data-react-root data-slide="agenda"></div>
+  </section>
+
+  <!-- ============ SLIDE 3 — PROBLEMA ============ -->
+  <section data-label="Problema" id="s3">
+    <div data-react-root data-slide="problem"></div>
+  </section>
+
+  <!-- ============ SLIDE 4 — ENCUESTA ============ -->
+  <section data-label="Evidencia" id="s4">
+    <div data-react-root data-slide="survey"></div>
+  </section>
+
+  <!-- ============ SLIDE 5 — JUSTIFICACIÓN / DIFERENCIADOR ============ -->
+  <section data-label="Diferenciador" id="s5">
+    <div data-react-root data-slide="differentiator"></div>
+  </section>
+
+  <!-- ============ SLIDE 6 — OBJETIVOS ============ -->
+  <section data-label="Objetivos" id="s6">
+    <div data-react-root data-slide="goals"></div>
+  </section>
+
+  <!-- ============ SLIDE 7 — ACTORES ============ -->
+  <section data-label="Actores" id="s7">
+    <div data-react-root data-slide="actors"></div>
+  </section>
+
+  <!-- ============ SLIDE 8 — DIAGRAMA DE PROCESOS ============ -->
+  <section data-label="Diagrama de procesos" id="s8">
+    <div data-react-root data-slide="processFlow"></div>
+  </section>
+
+  <!-- ============ SLIDE 9 — DER ============ -->
+  <section data-label="Arquitectura de datos" id="s9">
+    <div data-react-root data-slide="der"></div>
+  </section>
+
+  <!-- ============ SLIDE 10 — DEMO prueba vocacional ============ -->
+  <section data-label="Demo prueba vocacional" id="s10">
+    <div data-react-root data-slide="demoVocacional"></div>
+  </section>
+
+  <!-- ============ SLIDE 11 — DEMO chat de voz ============ -->
+  <section data-label="Demo asistente" id="s11">
+    <div data-react-root data-slide="demoVoice"></div>
+  </section>
+
+  <!-- ============ SLIDE 12 — ARQUITECTURA ============ -->
+  <section data-label="Arquitectura" id="s12">
+    <div data-react-root data-slide="architecture"></div>
+  </section>
+
+  <!-- ============ SLIDE 13 — STACK ============ -->
+  <section data-label="Stack" id="s13">
+    <div data-react-root data-slide="stack"></div>
+  </section>
+
+  <!-- ============ SLIDE 14 — PANTALLAS ASPIRANTE ============ -->
+  <section data-label="Pantallas del aspirante" id="s14">
+    <div data-react-root data-slide="screensUser"></div>
+  </section>
+
+  <!-- ============ SLIDE 15 — PANTALLAS ADMIN ============ -->
+  <section data-label="Panel administrador" id="s15">
+    <div data-react-root data-slide="screensAdmin"></div>
+  </section>
+
+  <!-- ============ SLIDE 16 — PIPELINE RAG ============ -->
+  <section data-label="Pipeline RAG" id="s16">
+    <div data-react-root data-slide="rag"></div>
+  </section>
+
+  <!-- ============ SLIDE 17 — ALCANCES / LIMITACIONES ============ -->
+  <section data-label="Alcances y limitaciones" id="s17">
+    <div data-react-root data-slide="scope"></div>
+  </section>
+
+  <!-- ============ SLIDE 18 — MÉTRICAS ============ -->
+  <section data-label="Métricas" id="s18">
+    <div data-react-root data-slide="metrics"></div>
+  </section>
+
+  <!-- ============ SLIDE 19 — CRONOGRAMA ============ -->
+  <section data-label="Cronograma" id="s19">
+    <div data-react-root data-slide="timeline"></div>
+  </section>
+
+  <!-- ============ SLIDE 20 — PRESUPUESTO / CIERRE ============ -->
+  <section data-label="Presupuesto y cierre" id="s20">
+    <div data-react-root data-slide="closing"></div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="slides.jsx"></script>
+<script type="text/babel" src="mount.jsx"></script>
+
+</body>
+</html>
