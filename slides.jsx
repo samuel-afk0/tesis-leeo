@@ -1998,14 +1998,14 @@ function ScopeSlide() {
     'Privacidad local',
   ];
   const limits = [
-    ['PDFs', 'No procesa escaneados sin OCR'],
+    ['PDFs', 'No procesa escaneados sin OCR, dañados o corruptos'],
     ['Concurrencia', 'Sujeta a capacidad del servidor'],
     ['Contexto', 'Ventana limitada por fragmento'],
     ['Red', 'Estabilidad de voz depende del internet'],
     ['Latencia RAG', '+500 ms a 2 s por recuperación'],
     ['Alucinaciones', 'Mitigadas con restricción de prompt'],
-    ['Barge-in', 'Ruido puede interrumpir al TTS'],
-    ['Términos técnicos', 'WER sube en vocabulario específico'],
+    ['Conocimiento Estático', 'El asistente no tiene acceso a internet para consultar datos externos en tiempo real; su conocimiento se limita estrictamente a los documentos cargados y su entrenamiento base'],
+    ['Términos técnicos', 'Palabras mal comprendidas o pronunciadas elevan el error de transcripción (WER)'],
   ];
   return (
     <div style={{ width: '100%', height: '100%', background: TOKENS.bg, position: 'relative' }}>
