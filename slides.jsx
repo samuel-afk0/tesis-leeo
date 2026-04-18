@@ -2167,31 +2167,35 @@ function ClosingSlide() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-                { provider: 'AWS',   desc: 'Amazon Web Services',  gpu: 'GPU T4 · 16 GB',  normal: '$380', barato: '$114', color: '#FF9900' },
-                { provider: 'GCP',   desc: 'Google Cloud',         gpu: 'GPU T4 · 16 GB',  normal: '$410', barato: '$123', color: '#4285F4' },
-                { provider: 'Azure', desc: 'Microsoft Azure',      gpu: 'GPU V100 · 16 GB', normal: '$650', barato: '$195', color: '#0078D4' },
+                { provider: 'AWS',   desc: 'Amazon Web Services',  gpu: 'GPU T4 · 16 GB',   hora: '$0.53', mes: '$380', color: '#FF9900' },
+                { provider: 'GCP',   desc: 'Google Cloud',         gpu: 'GPU T4 · 16 GB',   hora: '$0.57', mes: '$410', color: '#4285F4' },
+                { provider: 'Azure', desc: 'Microsoft Azure',      gpu: 'GPU V100 · 16 GB',  hora: '$0.90', mes: '$650', color: '#0078D4' },
               ].map(r => (
                 <div key={r.provider} style={{ ...CARD, borderLeft: `4px solid ${r.color}` }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: 14, color: r.color }}>{r.provider}</span>
-                      <span style={{ fontSize: 12, color: TOKENS.mute, marginLeft: 8 }}>{r.desc} · {r.gpu}</span>
-                    </div>
+                  <div style={{ marginBottom: 8 }}>
+                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: 14, color: r.color }}>{r.provider}</span>
+                    <span style={{ fontSize: 12, color: TOKENS.mute, marginLeft: 8 }}>{r.desc} · {r.gpu}</span>
                   </div>
-                  <div style={{ display: 'flex', gap: 28, marginTop: 8 }}>
-                    <div>
-                      <div style={LABEL}>Precio normal / mes</div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 26, color: TOKENS.ink }}>{r.normal}</div>
+                  <div style={{ display: 'flex', gap: 0 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={LABEL}>Por hora</div>
+                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: TOKENS.ink, lineHeight: 1 }}>{r.hora}</div>
+                      <div style={{ fontSize: 11, color: TOKENS.mute, marginTop: 2 }}>uso puntual</div>
                     </div>
-                    <div style={{ borderLeft: `1px solid ${TOKENS.line}`, paddingLeft: 28 }}>
-                      <div style={{ ...LABEL, color: TOKENS.ok }}>Con descuento spot / mes</div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 26, color: TOKENS.ok }}>{r.barato}</div>
+                    <div style={{ width: 1, background: TOKENS.line, margin: '0 20px' }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={LABEL}>Rendimiento máximo / mes</div>
+                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: TOKENS.ink, lineHeight: 1 }}>{r.mes}</div>
+                      <div style={{ fontSize: 11, color: TOKENS.mute, marginTop: 2 }}>24/7 sin parar</div>
                     </div>
                   </div>
                 </div>
               ))}
-              <div style={{ fontSize: 12, color: TOKENS.mute, fontStyle: 'italic' }}>
-                El precio "spot" usa capacidad sobrante del proveedor — hasta 70% más barato, ideal para pruebas.
+              <div style={{ background: 'rgba(47,125,78,0.08)', border: `1px solid ${TOKENS.ok}`, borderRadius: 10, padding: '12px 16px' }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: TOKENS.ok, marginBottom: 4 }}>Limitando horas de uso</div>
+                <div style={{ fontSize: 13, color: TOKENS.ink, lineHeight: 1.5 }}>
+                  Encendiendo el servidor solo durante el horario de atención (ej. 8 h/día, días hábiles) el costo baja a <strong>~$80–$115/mes</strong> — un ahorro de hasta el <strong>70%</strong> frente al precio de rendimiento máximo.
+                </div>
               </div>
             </div>
           </div>
