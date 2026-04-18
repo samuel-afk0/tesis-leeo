@@ -2138,99 +2138,103 @@ function TimelineSlide() {
 
 /* ─────────── SLIDE 16 — PRESUPUESTO + CIERRE ─────────── */
 function ClosingSlide() {
-  const cloud = [
-    { provider: 'AWS',   instance: 'g4dn.xlarge · T4 16GB',  onDemand: '$380', spot: '$114', color: '#FF9900' },
-    { provider: 'GCP',   instance: 'n1-standard-4 + T4',      onDemand: '$410', spot: '$123', color: '#4285F4' },
-    { provider: 'Azure', instance: 'NC6s_v3 · V100 16GB',     onDemand: '$650', spot: '$195', color: '#0078D4' },
-  ];
-  const local = [
-    { item: 'RTX 4060 Ti · 16GB VRAM', upfront: '$475', monthly: '$0', note: 'Grado entusiasta' },
-    { item: 'RTX 3060 · 12GB VRAM',    upfront: '$300', monthly: '$0', note: 'Opción económica' },
-    { item: 'Servidor base CPU/RAM/PSU', upfront: '$800', monthly: '$0', note: 'Infraestructura' },
-  ];
-
-  const COL_HEAD = { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: TOKENS.mute, marginBottom: 12 };
-  const CARD = { borderRadius: 12, padding: '16px 20px', background: '#fff', border: `1px solid ${TOKENS.line}`, display: 'flex', flexDirection: 'column', gap: 4 };
+  const COL_HEAD = { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: TOKENS.mute, marginBottom: 14 };
+  const CARD = { borderRadius: 10, padding: '14px 18px', background: '#fff', border: `1px solid ${TOKENS.line}` };
+  const LABEL = { fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: TOKENS.mute, marginBottom: 2 };
 
   return (
     <div style={{ width: '100%', height: '100%', background: TOKENS.bg, position: 'relative', overflow: 'hidden' }}>
       <Chrome index={20} total={20} label="Infraestructura · Presupuesto" />
-      <div style={{ padding: `${SPACE.pageY}px ${SPACE.pageX}px`, height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 28 }}>
+      <div style={{ padding: `${SPACE.pageY}px ${SPACE.pageX}px`, height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 24 }}>
 
         <div>
           <div className="eyebrow">PRESUPUESTO</div>
-          <div className="display" style={{ fontSize: 64, marginTop: 8, lineHeight: 1 }}>
+          <div className="display" style={{ fontSize: 60, marginTop: 6, lineHeight: 1 }}>
             Nube vs Servidor Local<span style={{ color: TOKENS.accent }}>.</span>
           </div>
+          <div style={{ fontSize: 15, color: TOKENS.mute, marginTop: 6 }}>
+            ¿Alquilamos servidores en internet o compramos nuestro propio equipo?
+          </div>
         </div>
 
-        {/* Two columns */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, flex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, flex: 1 }}>
 
-          {/* CLOUD */}
+          {/* ── NUBE ── */}
           <div>
-            <div style={COL_HEAD}>☁ Nube · On-Demand / Spot (−70%)</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {cloud.map(r => (
+            <div style={COL_HEAD}>☁ Opción A — Nube (pago mensual)</div>
+            <div style={{ fontSize: 13, color: TOKENS.mute, marginBottom: 12 }}>
+              Alquilamos una máquina potente en un centro de datos. Pagamos cada mes mientras la usemos.
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { provider: 'AWS',   desc: 'Amazon Web Services',  gpu: 'GPU T4 · 16 GB',  normal: '$380', barato: '$114', color: '#FF9900' },
+                { provider: 'GCP',   desc: 'Google Cloud',         gpu: 'GPU T4 · 16 GB',  normal: '$410', barato: '$123', color: '#4285F4' },
+                { provider: 'Azure', desc: 'Microsoft Azure',      gpu: 'GPU V100 · 16 GB', normal: '$650', barato: '$195', color: '#0078D4' },
+              ].map(r => (
                 <div key={r.provider} style={{ ...CARD, borderLeft: `4px solid ${r.color}` }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
-                      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: 15, color: r.color }}>{r.provider}</span>
-                      <span style={{ fontSize: 13, color: TOKENS.mute, marginLeft: 10 }}>{r.instance}</span>
+                      <span style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: 14, color: r.color }}>{r.provider}</span>
+                      <span style={{ fontSize: 12, color: TOKENS.mute, marginLeft: 8 }}>{r.desc} · {r.gpu}</span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: 32, marginTop: 6 }}>
+                  <div style={{ display: 'flex', gap: 28, marginTop: 8 }}>
                     <div>
-                      <div style={{ fontSize: 11, color: TOKENS.mute, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em' }}>ON-DEMAND / MES</div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: TOKENS.ink }}>{r.onDemand}</div>
+                      <div style={LABEL}>Precio normal / mes</div>
+                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 26, color: TOKENS.ink }}>{r.normal}</div>
                     </div>
-                    <div>
-                      <div style={{ fontSize: 11, color: TOKENS.ok, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em' }}>SPOT / MES</div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: TOKENS.ok }}>{r.spot}</div>
+                    <div style={{ borderLeft: `1px solid ${TOKENS.line}`, paddingLeft: 28 }}>
+                      <div style={{ ...LABEL, color: TOKENS.ok }}>Con descuento spot / mes</div>
+                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 26, color: TOKENS.ok }}>{r.barato}</div>
                     </div>
                   </div>
                 </div>
               ))}
-              <div style={{ fontSize: 13, color: TOKENS.mute, fontStyle: 'italic', marginTop: 4 }}>
-                Región us-east-1 · abril 2026
+              <div style={{ fontSize: 12, color: TOKENS.mute, fontStyle: 'italic' }}>
+                El precio "spot" usa capacidad sobrante del proveedor — hasta 70% más barato, ideal para pruebas.
               </div>
             </div>
           </div>
 
-          {/* LOCAL */}
+          {/* ── LOCAL ── */}
           <div>
-            <div style={COL_HEAD}>🖥 Servidor Local · Inversión única</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {local.map(r => (
+            <div style={COL_HEAD}>🖥 Opción B — Servidor propio (compra única)</div>
+            <div style={{ fontSize: 13, color: TOKENS.mute, marginBottom: 12 }}>
+              Compramos el equipo una sola vez. Sin cuota mensual. Requiere espacio físico y mantenimiento.
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { item: 'GPU RTX 4060 Ti',    detail: '16 GB VRAM — recomendada para LLM + voz', precio: '$450 – $500' },
+                { item: 'GPU RTX 3060',        detail: '12 GB VRAM — opción más económica',       precio: '$280 – $320' },
+                { item: 'Equipo base',         detail: 'CPU, RAM, fuente de poder, chasis',        precio: '~$800' },
+              ].map(r => (
                 <div key={r.item} style={{ ...CARD, borderLeft: `4px solid ${TOKENS.ink}` }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 18, color: TOKENS.ink }}>{r.item}</div>
-                      <div style={{ fontSize: 12, color: TOKENS.mute }}>{r.note}</div>
+                      <div style={{ fontSize: 12, color: TOKENS.mute, marginTop: 2 }}>{r.detail}</div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 20, color: TOKENS.ink, fontWeight: 700 }}>{r.upfront}</div>
-                      <div style={{ fontSize: 11, color: TOKENS.ok, fontFamily: 'JetBrains Mono, monospace' }}>$0 / mes</div>
-                    </div>
+                    <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 18, color: TOKENS.ink, fontWeight: 700, whiteSpace: 'nowrap', marginLeft: 16 }}>{r.precio}</div>
                   </div>
                 </div>
               ))}
 
-              {/* ROI callout */}
-              <div style={{ background: TOKENS.ink, borderRadius: 12, padding: '18px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
+              <div style={{ background: TOKENS.ink, borderRadius: 10, padding: '16px 22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
                 <div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.16em', color: 'rgba(245,243,236,0.5)', textTransform: 'uppercase' }}>ROI estimado</div>
-                  <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 36, color: TOKENS.bg, lineHeight: 1 }}>{'< 6 meses'}</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.14em', color: 'rgba(245,243,236,0.5)', textTransform: 'uppercase' }}>Inversión total aprox.</div>
+                  <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 32, color: TOKENS.bg }}>$1,100 – $1,300</div>
+                  <div style={{ fontSize: 12, color: 'rgba(245,243,236,0.55)', marginTop: 2 }}>Se recupera en menos de 6 meses vs pagar nube</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.1em', color: 'rgba(245,243,236,0.5)', textTransform: 'uppercase' }}>vs AWS Spot</div>
-                  <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 36, color: TOKENS.accent }}>$114/mes</div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.14em', color: 'rgba(245,243,236,0.5)', textTransform: 'uppercase' }}>Costo mensual</div>
+                  <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 32, color: TOKENS.accent }}>$0</div>
+                  <div style={{ fontSize: 12, color: 'rgba(245,243,236,0.55)', marginTop: 2 }}>Solo electricidad</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   );
