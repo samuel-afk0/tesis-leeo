@@ -2138,103 +2138,131 @@ function TimelineSlide() {
 
 /* ─────────── SLIDE 16 — PRESUPUESTO + CIERRE ─────────── */
 function ClosingSlide() {
-  const COL_HEAD = { fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: TOKENS.mute, marginBottom: 14 };
-  const CARD = { borderRadius: 10, padding: '14px 18px', background: '#fff', border: `1px solid ${TOKENS.line}` };
-  const LABEL = { fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: TOKENS.mute, marginBottom: 2 };
+  const EYEBROW = { fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: TOKENS.mute };
+  const SPEC = { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderBottom: `1px solid ${TOKENS.line}` };
+  const SPEC_K = { fontSize: 12, color: TOKENS.mute };
+  const SPEC_V = { fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: TOKENS.ink, fontWeight: 600 };
+
+  const cloudRows = [
+    { provider: 'AWS',   tag: 'Mínima',  inst: 'g4dn.xlarge',       gpu: 'NVIDIA T4 · 16 GB VRAM', cpu: '4 vCPUs', ram: '16 GB', mes: '$396', hora: '$0.53', color: '#FF9900' },
+    { provider: 'AWS',   tag: 'Ideal',   inst: 'g5.xlarge',          gpu: 'NVIDIA A10G · 24 GB VRAM',cpu: '4 vCPUs', ram: '16 GB', mes: '$740', hora: '$1.01', color: '#FF9900' },
+    { provider: 'GCP',   tag: '',        inst: 'n1-standard-4 + T4', gpu: 'NVIDIA T4 · 16 GB VRAM', cpu: '4 vCPUs', ram: '15 GB', mes: '$410', hora: '$0.57', color: '#4285F4' },
+    { provider: 'Azure', tag: '',        inst: 'NC6s_v3',            gpu: 'NVIDIA V100 · 16 GB VRAM',cpu: '6 vCPUs', ram: '112 GB',mes: '$650', hora: '$0.90', color: '#0078D4' },
+  ];
 
   return (
     <div style={{ width: '100%', height: '100%', background: TOKENS.bg, position: 'relative', overflow: 'hidden' }}>
       <Chrome index={20} total={20} label="Infraestructura · Presupuesto" />
-      <div style={{ padding: `${SPACE.pageY}px ${SPACE.pageX}px`, height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div style={{ padding: `${SPACE.pageY}px ${SPACE.pageX}px`, paddingTop: 56, height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
         <div>
           <div className="eyebrow">PRESUPUESTO</div>
-          <div className="display" style={{ fontSize: 60, marginTop: 6, lineHeight: 1 }}>
+          <div className="display" style={{ fontSize: 56, marginTop: 4, lineHeight: 1 }}>
             Nube vs Servidor Local<span style={{ color: TOKENS.accent }}>.</span>
-          </div>
-          <div style={{ fontSize: 15, color: TOKENS.mute, marginTop: 6 }}>
-            ¿Alquilamos servidores en internet o compramos nuestro propio equipo?
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, flex: 1 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 36, flex: 1, minHeight: 0 }}>
 
           {/* ── NUBE ── */}
-          <div>
-            <div style={COL_HEAD}>☁ Opción A — Nube (pago mensual)</div>
-            <div style={{ fontSize: 13, color: TOKENS.mute, marginBottom: 12 }}>
-              Alquilamos una máquina potente en un centro de datos. Pagamos cada mes mientras la usemos.
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div>
+              <div style={{ ...EYEBROW, marginBottom: 4 }}>☁ Opción A — Nube · pago mensual por uso</div>
+              <div style={{ fontSize: 12, color: TOKENS.mute }}>Servidor rentado en centro de datos. Pago mientras esté encendido.</div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[
-                { provider: 'AWS',   desc: 'Amazon Web Services',  gpu: 'GPU T4 · 16 GB',   hora: '$0.53', mes: '$380', color: '#FF9900' },
-                { provider: 'GCP',   desc: 'Google Cloud',         gpu: 'GPU T4 · 16 GB',   hora: '$0.57', mes: '$410', color: '#4285F4' },
-                { provider: 'Azure', desc: 'Microsoft Azure',      gpu: 'GPU V100 · 16 GB',  hora: '$0.90', mes: '$650', color: '#0078D4' },
-              ].map(r => (
-                <div key={r.provider} style={{ ...CARD, borderLeft: `4px solid ${r.color}` }}>
-                  <div style={{ marginBottom: 8 }}>
-                    <span style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, fontSize: 14, color: r.color }}>{r.provider}</span>
-                    <span style={{ fontSize: 12, color: TOKENS.mute, marginLeft: 8 }}>{r.desc} · {r.gpu}</span>
-                  </div>
-                  <div style={{ display: 'flex', gap: 0 }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={LABEL}>Por hora</div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: TOKENS.ink, lineHeight: 1 }}>{r.hora}</div>
-                      <div style={{ fontSize: 11, color: TOKENS.mute, marginTop: 2 }}>uso puntual</div>
-                    </div>
-                    <div style={{ width: 1, background: TOKENS.line, margin: '0 20px' }} />
-                    <div style={{ flex: 1 }}>
-                      <div style={LABEL}>Rendimiento máximo / mes</div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: TOKENS.ink, lineHeight: 1 }}>{r.mes}</div>
-                      <div style={{ fontSize: 11, color: TOKENS.mute, marginTop: 2 }}>24/7 sin parar</div>
-                    </div>
-                  </div>
-                </div>
+
+            {/* Table header */}
+            <div style={{ display: 'grid', gridTemplateColumns: '90px 1fr 70px 70px 72px 76px', gap: 8, padding: '6px 12px', background: TOKENS.ink, borderRadius: 8 }}>
+              {['Proveedor','Instancia / GPU','CPU','RAM','Por hora','Mes 24/7'].map(h => (
+                <div key={h} style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.1em', color: 'rgba(245,243,236,0.6)', textTransform: 'uppercase' }}>{h}</div>
               ))}
-              <div style={{ background: 'rgba(47,125,78,0.08)', border: `1px solid ${TOKENS.ok}`, borderRadius: 10, padding: '12px 16px' }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: TOKENS.ok, marginBottom: 4 }}>Limitando horas de uso</div>
-                <div style={{ fontSize: 13, color: TOKENS.ink, lineHeight: 1.5 }}>
-                  Encendiendo el servidor solo durante el horario de atención (ej. 8 h/día, días hábiles) el costo baja a <strong>~$80–$115/mes</strong> — un ahorro de hasta el <strong>70%</strong> frente al precio de rendimiento máximo.
+            </div>
+
+            {cloudRows.map((r, i) => (
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr 70px 70px 72px 76px', gap: 8, padding: '10px 12px', background: '#fff', borderRadius: 8, border: `1px solid ${TOKENS.line}`, borderLeft: `4px solid ${r.color}`, alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13, fontWeight: 700, color: r.color }}>{r.provider}</div>
+                  {r.tag && <div style={{ fontSize: 10, color: TOKENS.mute, background: r.tag==='Ideal'?'rgba(226,81,42,0.1)':'rgba(0,0,0,0.06)', borderRadius: 4, padding: '1px 5px', display:'inline-block', marginTop:2 }}>{r.tag}</div>}
                 </div>
+                <div>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: TOKENS.ink }}>{r.inst}</div>
+                  <div style={{ fontSize: 11, color: TOKENS.mute }}>{r.gpu}</div>
+                </div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: TOKENS.ink }}>{r.cpu}</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: TOKENS.ink }}>{r.ram}</div>
+                <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 18, color: TOKENS.ink }}>{r.hora}</div>
+                <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 18, color: TOKENS.accent, fontWeight: 600 }}>{r.mes}</div>
               </div>
+            ))}
+
+            <div style={{ background: 'rgba(47,125,78,0.09)', border: `1px solid ${TOKENS.ok}`, borderRadius: 8, padding: '10px 14px' }}>
+              <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em', color: TOKENS.ok }}>Limitando horas · </span>
+              <span style={{ fontSize: 13, color: TOKENS.ink }}>Usando solo en horario de atención (8 h/día, días hábiles) el costo baja hasta <strong>~$115–$220/mes</strong> — ahorro de hasta <strong>70%</strong>.</span>
             </div>
           </div>
 
           {/* ── LOCAL ── */}
-          <div>
-            <div style={COL_HEAD}>🖥 Opción B — Servidor propio (compra única)</div>
-            <div style={{ fontSize: 13, color: TOKENS.mute, marginBottom: 12 }}>
-              Compramos el equipo una sola vez. Sin cuota mensual. Requiere espacio físico y mantenimiento.
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div>
+              <div style={{ ...EYEBROW, marginBottom: 4 }}>🖥 Opción B — Servidor propio · compra única</div>
+              <div style={{ fontSize: 12, color: TOKENS.mute }}>Equipo físico en la institución. Sin cuota mensual. Solo electricidad (~$20/mes).</div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+
+            {/* Config Mínima */}
+            <div style={{ background: '#fff', border: `1px solid ${TOKENS.line}`, borderLeft: `4px solid ${TOKENS.ink}`, borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, fontWeight: 700, color: TOKENS.ink }}>Config. Mínima</div>
+                <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 22, color: TOKENS.ink }}>$850 – $1,050</div>
+              </div>
               {[
-                { item: 'GPU RTX 4060 Ti',    detail: '16 GB VRAM — recomendada para LLM + voz', precio: '$450 – $500' },
-                { item: 'GPU RTX 3060',        detail: '12 GB VRAM — opción más económica',       precio: '$280 – $320' },
-                { item: 'Equipo base',         detail: 'CPU, RAM, fuente de poder, chasis',        precio: '~$800' },
-              ].map(r => (
-                <div key={r.item} style={{ ...CARD, borderLeft: `4px solid ${TOKENS.ink}` }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 18, color: TOKENS.ink }}>{r.item}</div>
-                      <div style={{ fontSize: 12, color: TOKENS.mute, marginTop: 2 }}>{r.detail}</div>
-                    </div>
-                    <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 18, color: TOKENS.ink, fontWeight: 700, whiteSpace: 'nowrap', marginLeft: 16 }}>{r.precio}</div>
-                  </div>
+                ['GPU', 'NVIDIA RTX 3060 · 12 GB VRAM'],
+                ['CPU', 'Intel i5-12400 / AMD Ryzen 5 5600 · 6C/12T'],
+                ['RAM', '16 GB DDR4 · 3200 MHz'],
+                ['Almacenamiento', '500 GB NVMe M.2 Gen 3'],
+              ].map(([k,v]) => (
+                <div key={k} style={SPEC}>
+                  <span style={SPEC_K}>{k}</span>
+                  <span style={SPEC_V}>{v}</span>
                 </div>
               ))}
+            </div>
 
-              <div style={{ background: TOKENS.ink, borderRadius: 10, padding: '16px 22px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
+            {/* Config Ideal */}
+            <div style={{ background: '#fff', border: `1px solid ${TOKENS.line}`, borderLeft: `4px solid ${TOKENS.accent}`, borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                 <div>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.14em', color: 'rgba(245,243,236,0.5)', textTransform: 'uppercase' }}>Inversión total aprox.</div>
-                  <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 32, color: TOKENS.bg }}>$1,100 – $1,300</div>
-                  <div style={{ fontSize: 12, color: 'rgba(245,243,236,0.55)', marginTop: 2 }}>Se recupera en menos de 6 meses vs pagar nube</div>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, fontWeight: 700, color: TOKENS.accent }}>Config. Ideal</span>
+                  <span style={{ fontSize: 10, color: TOKENS.mute, marginLeft: 8, fontFamily: 'JetBrains Mono, monospace' }}>Institucional / Producción</span>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, letterSpacing: '0.14em', color: 'rgba(245,243,236,0.5)', textTransform: 'uppercase' }}>Costo mensual</div>
-                  <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 32, color: TOKENS.accent }}>$0</div>
-                  <div style={{ fontSize: 12, color: 'rgba(245,243,236,0.55)', marginTop: 2 }}>Solo electricidad</div>
-                </div>
+                <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 22, color: TOKENS.accent }}>$1,600 – $1,900</div>
               </div>
+              {[
+                ['GPU', 'RTX 4060 Ti 16 GB / RTX 3090 24 GB (usada)'],
+                ['CPU', 'Intel i7-13700K / AMD Ryzen 7 7700X · 8+ C'],
+                ['RAM', '32 GB DDR5 · 5200 MHz+'],
+                ['Almacenamiento', '1 TB NVMe M.2 Gen 4'],
+                ['Fuente', '750W 80+ Gold'],
+              ].map(([k,v]) => (
+                <div key={k} style={SPEC}>
+                  <span style={SPEC_K}>{k}</span>
+                  <span style={SPEC_V}>{v}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* ROI */}
+            <div style={{ background: TOKENS.ink, borderRadius: 8, padding: '12px 18px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+              {[
+                { label: 'Gasto inicial',     nube: '$0',      local: '~$1,750' },
+                { label: 'Costo / mes',       nube: '$740',    local: '~$20' },
+                { label: 'Punto equilibrio',  nube: '—',       local: '2.5 meses' },
+              ].map(r => (
+                <div key={r.label}>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(245,243,236,0.45)', marginBottom: 4 }}>{r.label}</div>
+                  <div style={{ fontSize: 11, color: 'rgba(245,243,236,0.55)', marginBottom: 2 }}>Nube: <span style={{ color: TOKENS.bg, fontWeight: 600 }}>{r.nube}</span></div>
+                  <div style={{ fontSize: 11, color: 'rgba(245,243,236,0.55)' }}>Local: <span style={{ color: TOKENS.accent, fontWeight: 600 }}>{r.local}</span></div>
+                </div>
+              ))}
             </div>
           </div>
 
