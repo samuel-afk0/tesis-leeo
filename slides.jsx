@@ -2660,11 +2660,45 @@ function DERSlide() {
   );
 }
 
+function ThankYouSlide() {
+  return (
+    <div style={{
+      width: '100%', height: '100%',
+      background: TOKENS.ink,
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center',
+      gap: 32, position: 'relative',
+    }}>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13, letterSpacing: '0.2em', textTransform: 'uppercase', color: TOKENS.accent }}>
+        FIN DE LA PRESENTACIÓN
+      </div>
+      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 120, color: TOKENS.bg, lineHeight: 0.9, textAlign: 'center' }}>
+        Gracias<span style={{ color: TOKENS.accent }}>.</span>
+      </div>
+      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 28, color: 'rgba(245,243,236,0.6)', textAlign: 'center', maxWidth: 600, lineHeight: 1.5 }}>
+        Este es nuestro proyecto — una plataforma de orientación vocacional para poner la decisión en manos del aspirante.
+      </div>
+      <div style={{ marginTop: 24, display: 'flex', gap: 48 }}>
+        {[
+          { label: 'AUTOR', value: 'D. Orellana' },
+          { label: 'INSTITUCIÓN', value: 'ITCA-FEPADE' },
+          { label: 'AÑO', value: '2025' },
+        ].map(({ label, value }) => (
+          <div key={label} style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.15em', color: 'rgba(245,243,236,0.4)', marginBottom: 6 }}>{label}</div>
+            <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 22, color: TOKENS.bg }}>{value}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ─────────── export all to window for mount ─────────── */
 Object.assign(window, {
   CoverSlide, AgendaSlide, ProblemSlide, SurveySlide, DifferentiatorSlide,
   GoalsSlide, ActorsSlide, ProcessFlowSlide, DERSlide, DemoVocationalSlide, DemoVoiceSlide,
   ArchitectureSlide, StackSlide, ScreensUserSlide, ScreensAdminSlide,
   RagSlide, ScopeSlide, MetricsSlide,
-  TimelineSlide, ClosingSlide
+  TimelineSlide, ClosingSlide, ThankYouSlide
 });

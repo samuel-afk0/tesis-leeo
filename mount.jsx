@@ -20,6 +20,7 @@ const slideMap = {
   metrics: window.MetricsSlide,
   timeline: window.TimelineSlide,
   closing: window.ClosingSlide,
+  thankyou: window.ThankYouSlide,
 };
 
 document.querySelectorAll('[data-react-root]').forEach(el => {
