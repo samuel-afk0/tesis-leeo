@@ -1900,6 +1900,12 @@ function StackSlide() {
 /* ─────────── SLIDE 14 — PANTALLAS ASPIRANTE ─────────── */
 function ScreensUserSlide() {
   const [active, setActive] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  useEffect(() => {
+    const onKey = e => { if (e.key === 'Escape') setLightbox(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const screens = [
     { img: 'screenshots/image3.png', label: 'Homepage', num: '01', desc: 'Página principal con presentación de carreras y acceso al asistente.' },
     { img: 'screenshots/image4.png', label: 'Mini chat',  num: '02', desc: 'Widget flotante para consultas rápidas sin salir de la página.' },
@@ -1972,7 +1978,10 @@ function ScreensUserSlide() {
               </div>
             </div>
             {/* screenshot */}
-            <div style={{ flex:1, minHeight:0, overflow:'hidden', position:'relative', background:'#fff' }}>
+            <div
+              onClick={() => setLightbox(true)}
+              style={{ flex:1, minHeight:0, overflow:'hidden', position:'relative', background:'#fff', cursor:'zoom-in' }}
+            >
               {screens.map((s,i)=>(
                 <img key={i} src={s.img} alt={s.label} style={{
                   position:'absolute', top:0, left:0, width:'100%', height:'auto',
@@ -1994,6 +2003,32 @@ function ScreensUserSlide() {
           </div>
         </div>
       </div>
+
+      {/* LIGHTBOX */}
+      {lightbox && (
+        <div
+          onClick={() => setLightbox(false)}
+          style={{
+            position:'absolute', inset:0, zIndex:999,
+            background:'rgba(14,14,12,0.92)', backdropFilter:'blur(6px)',
+            display:'flex', alignItems:'center', justifyContent:'center', cursor:'zoom-out',
+          }}
+        >
+          <img
+            src={cur.img} alt={cur.label}
+            style={{ maxWidth:'90%', maxHeight:'90%', objectFit:'contain', borderRadius:10, boxShadow:'0 40px 120px rgba(0,0,0,0.6)' }}
+            onClick={e => e.stopPropagation()}
+          />
+          <div style={{
+            position:'absolute', bottom:32, left:'50%', transform:'translateX(-50%)',
+            background:'rgba(255,255,255,0.12)', color:'rgba(245,243,236,0.8)', borderRadius:999,
+            padding:'8px 22px', fontFamily:'JetBrains Mono, monospace', fontSize:13,
+            letterSpacing:'0.1em', whiteSpace:'nowrap',
+          }}>
+            {cur.num} · {cur.label.toUpperCase()} · ESC para cerrar
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2001,6 +2036,12 @@ function ScreensUserSlide() {
 /* ─────────── SLIDE 15 — PANTALLAS ADMIN ─────────── */
 function ScreensAdminSlide() {
   const [active, setActive] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  useEffect(() => {
+    const onKey = e => { if (e.key === 'Escape') setLightbox(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const screens = [
     { img: 'screenshots/image7.png',  label: 'Login admin',      num: '01', desc: 'Acceso seguro al panel de administración con autenticación.' },
     { img: 'screenshots/image8.png',  label: 'Dashboard',        num: '02', desc: 'Vista general con métricas, conversaciones y actividad reciente.' },
@@ -2035,7 +2076,10 @@ function ScreensAdminSlide() {
                 admin.orientavoz.itca / {cur.label.toLowerCase().replace(' ','-')}
               </div>
             </div>
-            <div style={{ flex:1, minHeight:0, overflow:'hidden', position:'relative', background:'#111' }}>
+            <div
+              onClick={() => setLightbox(true)}
+              style={{ flex:1, minHeight:0, overflow:'hidden', position:'relative', background:'#111', cursor:'zoom-in' }}
+            >
               {screens.map((s,i)=>(
                 <img key={i} src={s.img} alt={s.label} style={{
                   position:'absolute', top:0, left:0, width:'100%', height:'auto',
@@ -2092,6 +2136,32 @@ function ScreensAdminSlide() {
           </div>
         </div>
       </div>
+
+      {/* LIGHTBOX */}
+      {lightbox && (
+        <div
+          onClick={() => setLightbox(false)}
+          style={{
+            position:'absolute', inset:0, zIndex:999,
+            background:'rgba(14,14,12,0.92)', backdropFilter:'blur(6px)',
+            display:'flex', alignItems:'center', justifyContent:'center', cursor:'zoom-out',
+          }}
+        >
+          <img
+            src={cur.img} alt={cur.label}
+            style={{ maxWidth:'90%', maxHeight:'90%', objectFit:'contain', borderRadius:10, boxShadow:'0 40px 120px rgba(0,0,0,0.6)' }}
+            onClick={e => e.stopPropagation()}
+          />
+          <div style={{
+            position:'absolute', bottom:32, left:'50%', transform:'translateX(-50%)',
+            background:'rgba(255,255,255,0.12)', color:'rgba(245,243,236,0.8)', borderRadius:999,
+            padding:'8px 22px', fontFamily:'JetBrains Mono, monospace', fontSize:13,
+            letterSpacing:'0.1em', whiteSpace:'nowrap',
+          }}>
+            {cur.num} · {cur.label.toUpperCase()} · ESC para cerrar
+          </div>
+        </div>
+      )}
     </div>
   );
 }
