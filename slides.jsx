@@ -1293,7 +1293,7 @@ function DemoVoiceSlide() {
               { x:200, y:140, k:'MIC', name:'Micrófono', sub:'CAPTURA', active:phase==='mic', color:TOKENS.accent, lane:'top' },
               { x:450, y:140, k:'STT', name:'Whisper', sub:'SPEECH→TEXT', active:phase==='stt', color:TOKENS.accent, lane:'top' },
               { x:700, y:140, k:'RAG', name:'pgvector', sub:'RETRIEVAL', active:phase==='rag', color:TOKENS.accent, lane:'top' },
-              { x:950, y:140, k:'LLM', name:'Qwen3', sub:'REASONING', active:phase==='llm', color:TOKENS.accent, lane:'top' },
+              { x:950, y:140, k:'LLM', name:'Modelo IA', sub:'REASONING', active:phase==='llm', color:TOKENS.accent, lane:'top' },
               { x:1200, y:140, k:'GEN', name:'Generator', sub:'RESPUESTA', active:phase==='llm', color:TOKENS.accent, lane:'top' },
               
               { x:1200, y:320, k:'TTS', name:'Kokoro', sub:'TEXT→SPEECH', active:phase==='tts', color:TOKENS.ok, lane:'bottom' },
@@ -1440,7 +1440,7 @@ function ArchitectureSlide() {
     
     // IA + DATA
     { id:'whisper', x:680, y:50, w:160, h:55, label:'Whisper', sub:'STT', layer:'ia', color:'#7C3AED' },
-    { id:'llm', x:680, y:125, w:160, h:55, label:'Qwen3', sub:'LLM', layer:'ia', color:'#DC2626' },
+    { id:'llm', x:680, y:125, w:160, h:55, label:'Modelo IA', sub:'LLM', layer:'ia', color:'#DC2626' },
     { id:'kokoro', x:680, y:200, w:160, h:55, label:'Kokoro', sub:'TTS', layer:'ia', color:'#059669' },
     { id:'pgvector', x:680, y:275, w:160, h:55, label:'pgvector', sub:'RAG Store', layer:'ia', color:'#0891B2' },
   ];
@@ -1685,13 +1685,6 @@ function StackSlide() {
     openai: (
       <svg width="44" height="44" viewBox="0 0 41 41">
         <path d="M37.532 16.87a9.963 9.963 0 0 0-.856-8.184 10.078 10.078 0 0 0-10.855-4.835 9.964 9.964 0 0 0-6.131-3.358 10.079 10.079 0 0 0-11.183 4.91 9.964 9.964 0 0 0-6.67 4.834 10.079 10.079 0 0 0 1.24 11.817 9.965 9.965 0 0 0 .856 8.185 10.079 10.079 0 0 0 10.855 4.835 9.965 9.965 0 0 0 6.131 3.358 10.078 10.078 0 0 0 11.188-4.91 9.965 9.965 0 0 0 6.67-4.834 10.079 10.079 0 0 0-1.243-11.818zM22.498 37.886a7.474 7.474 0 0 1-4.799-1.735c.061-.033.168-.091.237-.134l7.964-4.6a1.294 1.294 0 0 0 .655-1.134V19.054l3.366 1.944a.12.12 0 0 1 .066.092v9.299a7.505 7.505 0 0 1-7.49 7.496zM6.392 31.006a7.471 7.471 0 0 1-.894-5.023c.06.036.162.099.237.141l7.964 4.6a1.297 1.297 0 0 0 1.308 0l9.724-5.614v3.888a.12.12 0 0 1-.048.103l-8.051 4.649a7.504 7.504 0 0 1-10.24-2.744zM4.297 13.62A7.469 7.469 0 0 1 8.2 10.333c0 .068-.004.19-.004.274v9.201a1.294 1.294 0 0 0 .654 1.132l9.723 5.614-3.366 1.944a.12.12 0 0 1-.114.012L7.044 23.86a7.504 7.504 0 0 1-2.747-10.24zm27.658 6.437l-9.724-5.615 3.367-1.943a.121.121 0 0 1 .114-.012l8.048 4.648a7.498 7.498 0 0 1-1.158 13.528v-9.476a1.293 1.293 0 0 0-.647-1.13zm3.35-5.043c-.059-.037-.162-.099-.236-.141l-7.965-4.6a1.298 1.298 0 0 0-1.308 0l-9.723 5.614v-3.888a.12.12 0 0 1 .048-.103l8.05-4.645a7.497 7.497 0 0 1 11.135 7.763zm-21.063 6.929l-3.367-1.944a.12.12 0 0 1-.065-.092v-9.299a7.497 7.497 0 0 1 12.293-5.756 6.94 6.94 0 0 0-.236.134l-7.965 4.6a1.294 1.294 0 0 0-.654 1.132l-.006 11.225zm1.829-3.943l4.33-2.501 4.332 2.497v4.998l-4.331 2.5-4.331-2.5z" fill="#10A37F"/>
-      </svg>
-    ),
-    qwen: (
-      <svg width="44" height="44" viewBox="0 0 44 44">
-        <rect width="44" height="44" rx="8" fill="#6B21A8"/>
-        <text x="22" y="30" textAnchor="middle" fontFamily="serif" fontWeight="900" fontSize="22" fill="#fff">Q</text>
-        <path d="M14 34 L22 38 L30 34" stroke="#A855F7" strokeWidth="2" fill="none"/>
       </svg>
     ),
     kokoro: (
