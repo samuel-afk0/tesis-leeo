@@ -331,11 +331,10 @@ function AgendaSlide() {
     ['03', 'Propuesta',    'Justificación y diferenciadores frente a sistemas tradicionales.'],
     ['04', 'Objetivos',    'General y tres específicos del proyecto.'],
     ['05', 'Actores',      'Aspirante, administrador y flujo de procesos.'],
-    ['06', 'Demo',         'Prueba vocacional + asistente de voz en vivo.'],
-    ['07', 'Prototipo',    'Pantallas del aspirante y del panel admin.'],
-    ['08', 'Arquitectura', 'Diagrama, DER, stack tecnológico y pipeline RAG.'],
-    ['09', 'Alcances',     'Capacidades, limitaciones y métricas de validación.'],
-    ['10', 'Cierre',       'Cronograma de hitos y presupuesto de infraestructura.'],
+    ['06', 'Prototipo',    'Pantallas del aspirante y del panel admin.'],
+    ['07', 'Arquitectura', 'Diagrama, DER, stack tecnológico y pipeline RAG.'],
+    ['08', 'Alcances',     'Capacidades y limitaciones del sistema.'],
+    ['09', 'Cierre',       'Presupuesto de infraestructura nube vs local.'],
   ];
   return (
     <div style={{ width: '100%', height: '100%', background: TOKENS.bg, position: 'relative', padding: SPACE.pageY + 'px ' + SPACE.pageX + 'px' }}>
@@ -608,7 +607,7 @@ function DifferentiatorSlide() {
 
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:40, marginBottom:36 }}>
           <div style={{ fontSize:19, lineHeight:1.55, color:TOKENS.ink2 }}>
-            El proceso actual depende del personal administrativo atendiendo consultas repetitivas, saturando recursos y limitando el alcance institucional. <strong>14 de 35 estudiantes</strong> de primer año no recibieron ningún apoyo vocacional previo.
+            El proceso actual depende del personal administrativo atendiendo consultas repetitivas, saturando recursos y limitando el alcance institucional. <strong>22 de 34 estudiantes</strong> de primer año no recibieron ningún apoyo vocacional previo.
           </div>
           <div style={{ fontSize:19, lineHeight:1.55, color:TOKENS.ink2 }}>
             La plataforma implementa IA local para evaluar perfiles, recomendar carreras con nivel de afinidad y responder consultas sobre documentación institucional — sin exponer datos a APIs externas.
@@ -2970,7 +2969,7 @@ function ThankYouSlide() {
       <div style={{ marginTop: 24, display: 'flex', gap: 48 }}>
         {[
             { label: 'INSTITUCIÓN', value: 'ITCA-FEPADE' },
-          { label: 'AÑO', value: '2025' },
+          { label: 'AÑO', value: '2026' },
         ].map(({ label, value }) => (
           <div key={label} style={{ textAlign: 'center' }}>
             <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, letterSpacing: '0.15em', color: 'rgba(245,243,236,0.4)', marginBottom: 6 }}>{label}</div>
